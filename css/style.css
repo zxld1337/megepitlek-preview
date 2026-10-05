@@ -1,0 +1,1062 @@
+/* ==========================================================================
+   Megépítlek.com — design system
+   Concept: the company's real output is technical paperwork — helyszíni
+   napló, árazott/árazatlan költségvetés, kiviteli tervek — and real
+   materials: timber, brick, roof copper. The system borrows the language
+   of a site document (hairlines, mono item numbers, stamp tags, index
+   cards) instead of a generic SaaS card grid.
+   ========================================================================== */
+
+/* Fonts are loaded via <link> in each page's <head> (faster than @import). */
+
+:root {
+  /* Plaster / paper */
+  --color-bg: #f2ead9;
+  --color-paper: #faf6ec;
+
+  /* Ink */
+  --color-ink: #271c14;
+  --color-ink-muted: #6d5c49;
+
+  /* Timber / bronze (kept from the brief) */
+  --color-wood: #8a5d3b;
+  --color-wood-dark: #5b3c26;
+
+  /* Deep contrast section */
+  --color-espresso: #2e2015;
+  --color-espresso-line: rgba(242, 234, 217, 0.18);
+
+  /* Warm accent — CTAs, hover fills */
+  --color-copper: #b1622c;
+  --color-copper-dark: #8f4c21;
+
+  /* Signature cool accent — oxidised roof copper. Used sparingly. */
+  --color-patina: #4f7a68;
+
+  --color-line: rgba(39, 28, 20, 0.16);
+  --color-line-strong: rgba(39, 28, 20, 0.32);
+
+  --font-display: "Bricolage Grotesque", "Archivo", sans-serif;
+  --font-body: "Archivo", Arial, sans-serif;
+
+  --container-width: 1180px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --nav-h: 92px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-body);
+}
+
+html,
+body {
+  min-height: 100%;
+  background-color: var(--color-bg) !important;
+  color: var(--color-ink);
+}
+
+body {
+  font-size: 16px;
+  line-height: 1.55;
+  /* Sticky footer: short pages still end with the footer at the viewport bottom */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+body > main {
+  flex: 1 0 auto;
+}
+
+body > .gallery-header {
+  width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* --------------------------------------------------------------------
+   Eyebrow — tracked-out label used above headings. Stands in for a
+   document header/stamp rather than decoration.
+   -------------------------------------------------------------------- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-copper-dark);
+  margin-bottom: 0.9rem;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 1.4em;
+  height: 1px;
+  background: var(--color-copper-dark);
+}
+
+/* --------------------------------------------------------------------
+   Navigation
+   -------------------------------------------------------------------- */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-espresso);
+  color: var(--color-bg);
+  height: var(--nav-h);
+  padding: 0 1.5rem !important;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--color-copper);
+}
+
+nav .logo img {
+  width: 96px !important;
+  display: block;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+
+nav ul li {
+  position: relative;
+}
+
+nav ul li:not(:last-child)::after {
+  content: "/";
+  color: var(--color-wood);
+  margin-left: 1.4rem;
+  margin-right: 1.4rem;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+nav ul li a:hover {
+  color: var(--color-copper);
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 1.6rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-bg);
+  margin-right: 0.6em;
+}
+
+@media (max-width: 1350px) {
+  nav ul li:not(:last-child)::after {
+    content: "";
+    margin: 0;
+  }
+
+  .menu {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+    position: absolute;
+    top: var(--nav-h);
+    right: 1rem;
+    background: var(--color-espresso);
+    border: 1px solid var(--color-copper);
+    padding: 1.25rem 1.5rem;
+  }
+
+  .menu.show {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
+
+/* --------------------------------------------------------------------
+   Hero — a mounted print: cream mat border around the photo, caption
+   set bottom-left like a gallery wall label, small rotated stamp tag.
+   -------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  height: calc(100vh - var(--nav-h));
+  box-sizing: border-box;
+  background-color: var(--color-bg);
+  padding: 18px;
+}
+
+.hero .image-viewer {
+  position: absolute;
+  inset: 18px;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.hero .image-viewer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.hero .image-viewer img.fade-out {
+  opacity: 0;
+}
+
+.hero .image-viewer img.fade-in {
+  opacity: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 18px;
+  background: linear-gradient(
+    to top,
+    rgba(20, 13, 7, 0.82) 0%,
+    rgba(20, 13, 7, 0.15) 38%,
+    transparent 60%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: absolute;
+  left: 42px;
+  right: 42px;
+  bottom: 40px;
+  z-index: 3;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  color: var(--color-bg);
+}
+
+.hero-content h1 {
+  color: var(--color-bg);
+  font-size: clamp(2.1rem, 5vw, 3.75rem);
+  line-height: 1.08;
+}
+
+.hero-content p {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  color: #e9dfcc;
+  max-width: 46ch;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 0.4rem;
+}
+
+/* --------------------------------------------------------------------
+   Buttons — rectangular, hairline label. No pills.
+   -------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.85em 1.5em;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid currentColor;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--color-copper);
+  border-color: var(--color-copper);
+  color: var(--color-bg);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-copper-dark);
+  border-color: var(--color-copper-dark);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border-color: rgba(242, 234, 217, 0.6);
+  color: var(--color-bg);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(242, 234, 217, 0.12);
+  border-color: var(--color-bg);
+}
+
+/* --------------------------------------------------------------------
+   Section framework
+   -------------------------------------------------------------------- */
+.section {
+  padding: 5.5rem var(--gutter);
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
+.section-head {
+  max-width: 640px;
+  margin-bottom: 3rem;
+}
+
+.section-head.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.section-title {
+  font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+  line-height: 1.15;
+}
+
+.section-lede {
+  color: var(--color-ink-muted);
+  margin-top: 0.9rem;
+  line-height: 1.7;
+}
+
+.section-cta {
+  margin-top: 2.75rem;
+}
+
+.section-dark {
+  background-color: var(--color-espresso);
+  color: var(--color-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.section-dark .eyebrow {
+  color: var(--color-patina);
+}
+
+.section-dark .eyebrow::before {
+  background: var(--color-patina);
+}
+
+.section-dark .section-title {
+  color: var(--color-bg);
+}
+
+.section-dark .section-lede {
+  color: #cfc3ac;
+}
+
+/* Faint elevation line-art, signature motif for the dark section */
+.blueprint-line {
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: auto;
+  opacity: 0.22;
+  color: var(--color-patina);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------
+   Intro section
+   -------------------------------------------------------------------- */
+.intro-section .section-lede {
+  font-size: 1.05rem;
+  max-width: 62ch;
+}
+
+/* --------------------------------------------------------------------
+   Services — itemised like a tételes költségvetés (bill of quantities):
+   the one place a numbered list is true to the subject.
+   -------------------------------------------------------------------- */
+.tender-list {
+  border-top: 1px solid var(--color-line-strong);
+}
+
+.tender-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--color-line);
+  transition: border-color 0.2s ease;
+}
+
+.tender-row > * {
+  transition: transform 0.2s ease;
+}
+
+.tender-row:hover {
+  border-bottom-color: var(--color-copper);
+}
+
+.tender-row:hover > * {
+  transform: translateX(0.75rem);
+}
+
+/* Rows that link to a service page */
+a.tender-row {
+  text-decoration: none;
+  color: inherit;
+}
+
+.tender-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.tender-desc {
+  color: var(--color-ink-muted);
+  font-size: 0.95rem;
+  max-width: 70ch;
+}
+
+.tender-arrow {
+  color: var(--color-copper-dark);
+  flex-shrink: 0;
+  margin-right: 0.75rem;
+}
+
+.tender-index {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-ink-muted);
+  width: 2.5ch;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.tender-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  color: var(--color-copper-dark);
+}
+
+.tender-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tender-name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.05rem;
+}
+
+/* --------------------------------------------------------------------
+   Reference / portfolio grid — editorial captions, not SaaS cards.
+   -------------------------------------------------------------------- */
+.reference-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.reference-item {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.reference-figure {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background-color: var(--color-line);
+}
+
+.reference-figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.reference-item:hover .reference-figure img {
+  transform: scale(1.04);
+}
+
+.reference-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--color-line);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.reference-caption .arrow {
+  color: var(--color-copper-dark);
+  transition: transform 0.2s ease;
+}
+
+.reference-item:hover .reference-caption .arrow {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------
+   Contact — index-card treatment
+   -------------------------------------------------------------------- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--color-line-strong);
+  border-left: 1px solid var(--color-line-strong);
+}
+
+.contact-card {
+  padding: 2.5rem 2rem;
+  border-right: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
+  background-color: var(--color-paper);
+}
+
+.contact-photo {
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.contact-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  margin-bottom: 1.5rem;
+  display: block;
+  opacity: 0.82;
+}
+
+.contact-card-body .eyebrow {
+  margin-bottom: 0.5rem;
+}
+
+.contact-card-body h2,
+.contact-card-body h3,
+.contact-card-body .contact-value {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  color: var(--color-ink);
+  margin-bottom: 0.4rem;
+}
+
+.contact-card-body p {
+  color: var(--color-ink-muted);
+}
+
+.contact-link {
+  color: var(--color-copper-dark);
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-copper-dark);
+}
+
+.contact-link:hover {
+  color: var(--color-copper);
+  border-bottom-color: var(--color-copper);
+}
+
+/* --------------------------------------------------------------------
+   Footer — closes the page like an index card, not a floating pill.
+   The column block doubles as the site's internal link map.
+   -------------------------------------------------------------------- */
+.site-footer {
+  border-top: 1px solid var(--color-line-strong);
+  background-color: var(--color-espresso);
+  color: var(--color-bg);
+}
+
+.footer-grid {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 3.5rem var(--gutter) 2.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
+  gap: 2.5rem;
+  font-size: 0.92rem;
+}
+
+.footer-brand {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.footer-about {
+  color: #cfc3ac;
+  line-height: 1.65;
+  max-width: 36ch;
+}
+
+.footer-label {
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-patina);
+  margin-bottom: 0.9rem;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: var(--color-bg);
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: var(--color-copper);
+}
+
+.site-footer .clear {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 1.5rem var(--gutter);
+  border-top: 1px solid var(--color-espresso-line);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  color: #cfc3ac;
+}
+
+.site-footer .clear a {
+  text-decoration: none;
+  color: var(--color-bg);
+  transition: color 0.2s ease;
+}
+
+.site-footer .clear a:hover {
+  color: var(--color-copper);
+}
+
+.site-footer .clear > :not(:last-child)::after {
+  content: "/";
+  margin-left: 2rem;
+  color: var(--color-wood);
+}
+
+@media (max-width: 860px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .site-footer .clear {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .site-footer .clear > :not(:last-child)::after {
+    content: "";
+    margin: 0;
+  }
+}
+
+/* --------------------------------------------------------------------
+   Page header (gallery, service and contact pages)
+   -------------------------------------------------------------------- */
+.gallery-header {
+  padding: 4.5rem var(--gutter) 0.5rem;
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
+.gallery-header .section-lede {
+  max-width: 64ch;
+}
+
+/* Pages whose only content is the dark CTA (lakások / telkek): the CTA sits
+   on the footer like on the home page, and any spare height goes above it. */
+main:has(> .section-dark:only-child) {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+main > .section-dark:only-child {
+  width: 100%;
+  margin-top: 3.5rem;
+}
+
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1.75rem;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border-color: var(--color-line-strong);
+  color: var(--color-ink);
+}
+
+.btn-outline:hover {
+  border-color: var(--color-copper-dark);
+  color: var(--color-copper-dark);
+}
+
+/* Breadcrumb — reads like a drawing's sheet reference */
+.breadcrumb {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-muted);
+  margin-bottom: 1.75rem;
+}
+
+.breadcrumb li:not(:last-child)::after {
+  content: "/";
+  margin-left: 0.5rem;
+  color: var(--color-wood);
+}
+
+.breadcrumb a {
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-line-strong);
+}
+
+.breadcrumb a:hover {
+  color: var(--color-copper-dark);
+  border-bottom-color: var(--color-copper-dark);
+}
+
+/* --------------------------------------------------------------------
+   Long-form content — heading in the margin, text in the body column,
+   like a műszaki leírás.
+   -------------------------------------------------------------------- */
+.section-follow {
+  padding-top: 0;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.75fr);
+  gap: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--color-line-strong);
+}
+
+.split > .section-title {
+  position: sticky;
+  top: calc(var(--nav-h) + 1.5rem);
+  align-self: start;
+}
+
+.prose {
+  max-width: 68ch;
+  line-height: 1.75;
+}
+
+.prose p + p,
+.prose p + ul,
+.prose ul + p,
+.prose h3 + p {
+  margin-top: 1rem;
+}
+
+.prose h3 {
+  font-size: 1.15rem;
+  margin-top: 2rem;
+}
+
+.prose h3:first-child {
+  margin-top: 0;
+}
+
+.prose a {
+  color: var(--color-copper-dark);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.prose a:hover {
+  color: var(--color-copper);
+}
+
+.check-list {
+  list-style: none;
+  border-top: 1px solid var(--color-line);
+  margin-top: 1.25rem;
+}
+
+.check-list li {
+  padding: 0.85rem 0 0.85rem 1.75rem;
+  border-bottom: 1px solid var(--color-line);
+  position: relative;
+}
+
+.check-list li::before {
+  content: "";
+  position: absolute;
+  left: 0.2rem;
+  top: 1.7rem;
+  width: 0.7rem;
+  height: 1px;
+  background: var(--color-copper);
+}
+
+.check-list strong {
+  font-weight: 600;
+}
+
+/* Numbered work stages — same visual family as .tender-row */
+.step-list {
+  list-style: none;
+  counter-reset: step;
+  border-top: 1px solid var(--color-line-strong);
+}
+
+.step-list li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 3ch minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.step-list li::before {
+  content: counter(step, decimal-leading-zero);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-ink-muted);
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.2rem;
+}
+
+.step-list h3 {
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+}
+
+.step-list p {
+  color: var(--color-ink-muted);
+  max-width: 68ch;
+}
+
+.step-list a {
+  color: var(--color-copper-dark);
+}
+
+/* Index cards for side-by-side definitions */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  border-top: 1px solid var(--color-line-strong);
+  border-left: 1px solid var(--color-line-strong);
+}
+
+/* Inside the narrow body column of .split, stack the cards as rows */
+.split .info-grid {
+  grid-template-columns: 1fr;
+}
+
+.info-card {
+  padding: 2rem 1.75rem;
+  border-right: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
+  background-color: var(--color-paper);
+}
+
+.info-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.6rem;
+}
+
+.info-card p {
+  color: var(--color-ink-muted);
+  line-height: 1.65;
+}
+
+/* FAQ — native <details>, no JS */
+.faq {
+  border-top: 1px solid var(--color-line-strong);
+}
+
+.faq details {
+  border-bottom: 1px solid var(--color-line);
+}
+
+.faq summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 1.35rem 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.08rem;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::after {
+  content: "+";
+  font-family: var(--font-body);
+  color: var(--color-copper-dark);
+  font-size: 1.3rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.faq details[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.faq summary:hover {
+  color: var(--color-copper-dark);
+}
+
+.faq details p {
+  color: var(--color-ink-muted);
+  max-width: 70ch;
+  line-height: 1.7;
+  padding-bottom: 1.5rem;
+}
+
+.faq details a {
+  color: var(--color-copper-dark);
+}
+
+/* Static gallery markup: make items keyboard-focusable */
+.gallery-item:focus-visible {
+  outline: 2px solid var(--color-copper);
+  outline-offset: 3px;
+}
+
+@media (max-width: 860px) {
+  .split {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .split > .section-title {
+    position: static;
+  }
+}
+
+/* --------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .hero {
+    padding: 10px;
+  }
+
+  .hero .image-viewer,
+  .hero-overlay {
+    inset: 10px;
+  }
+
+  .hero-content {
+    left: 22px;
+    right: 22px;
+    bottom: 26px;
+  }
+
+  .section {
+    padding: 3.5rem var(--gutter);
+  }
+
+  .contact-grid {
+    border-left: none;
+  }
+
+  .contact-card {
+    border-right: none;
+  }
+}
